@@ -1,46 +1,76 @@
 const path = require('path')
 const webpack = require('webpack')
-const config = require('../webpack.config')
+const [serverConfig, clientConfig] = require('../webpack.config')
 const fs = require('fs-extra')
 const Koa = require('koa')
 const mount = require('koa-mount')
- 
+const devMiddleware = require('koa-webpack-dev-middleware')
+const hotMiddleware = require('koa-webpack-hot-middleware')
+
 const TMP_DIR = path.resolve(__dirname, '..', '.tmp')
 const SERVER_FILENAME = 'server.js'
 const COMPILED_SERVER_FILE = path.resolve(TMP_DIR, SERVER_FILENAME)
 
 const app = new Koa()
 
+app.listen(3000, () => {
+  console.log('listening')
+})
 
 async function exit() {
   await fs.emptyDir(TMP_DIR)
   process.exit()
 }
 
-config.output = {
+async function processUpdates(hot) {
+  const result = await hot.check()
+
+  if (hot.status() === 'ready') {
+    try {
+      await hot.apply()
+      return [true, result]
+    } catch(e) {
+      if (hot.status() === 'abort' || hot.status() === 'fail') {
+        return [false, []]
+      }
+    }
+  }
+
+  return [false, []]
+}
+
+serverConfig.output = {
   path: TMP_DIR,
   filename: SERVER_FILENAME,
   libraryTarget: 'commonjs2'
 }
 
-config.plugins = config.plugins || []
-config.plugins.push(
+serverConfig.plugins = serverConfig.plugins || []
+serverConfig.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NamedModulesPlugin(),
   new webpack.NoEmitOnErrorsPlugin()
 )
 
-const compiler = webpack(config)
+clientConfig.plugins = clientConfig.plugins || []
+clientConfig.plugins.push(
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NamedModulesPlugin(),
+  new webpack.NoEmitOnErrorsPlugin()
+)
+clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
+
+const { compilers } = webpack([serverConfig, clientConfig])
+const serverCompiler = compilers.find(c => c.name === 'server')
+const clientCompiler = compilers.find(c => c.name === 'client')
+
+app.use(devMiddleware(clientCompiler, { publicPath: '/assets/' }))
+app.use(hotMiddleware(clientCompiler))
+
 let initialCompile = true
 let server
 
-app.listen(3000, () => {
-  console.log('listening')
-})
-
-compiler.watch({}, async (err, stats) => {
-
-  // Check for errors
+serverCompiler.watch({}, async (err, stats) => {
   if (stats.hasErrors()) {
     console.error(stats.toString({
       hash: false,
@@ -62,27 +92,11 @@ compiler.watch({}, async (err, stats) => {
     } else {
       delete require.cache[require.resolve(COMPILED_SERVER_FILE)]
       server = require(COMPILED_SERVER_FILE).default
-      app.middleware.splice(0, 1, mount(server))
+      app.middleware.splice(2, 1, mount(server))
       console.info(`Could not Hot Reload, app updated`)
     }
   }
 })
 
-async function processUpdates(hot) {
-  const result = await hot.check()
-
-  if (hot.status() === 'ready') {
-    try {
-      await hot.apply()
-      return [true, result]
-    } catch(e) {
-      if (hot.status() === 'abort' || hot.status() === 'fail') {
-        return [false, []]
-      }
-    }
-  }
-
-  return [false, []]
-}
-
 process.on('SIGINT', exit)
+process.on('unhandledRejection', r => console.log(r));

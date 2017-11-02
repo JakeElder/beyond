@@ -1,8 +1,6 @@
 const path = require('path')
 
-module.exports = {
-  entry: './src/server.js',
-  target: 'node',
+const baseConfig = {
   module: {
     rules: [
       {
@@ -21,3 +19,22 @@ module.exports = {
     ]
   }
 }
+
+const clientConfig = {
+  name: 'client',
+  entry: './src/client.js',
+  output: {
+    filename: 'client.js',
+    publicPath: '/assets/'
+  },
+  ...baseConfig
+}
+
+const serverConfig = {
+  name: 'server',
+  entry: './src/server.js',
+  target: 'node',
+  ...baseConfig
+}
+
+module.exports = [serverConfig, clientConfig]

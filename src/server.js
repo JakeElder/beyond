@@ -22,6 +22,7 @@ app.use(ctx => {
     <!doctype html>
     <body>
       <div id="app">${html}</div>
+      <script src="/assets/client.js"></script>
     </body>
   `
 })
