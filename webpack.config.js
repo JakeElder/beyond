@@ -2,21 +2,28 @@ const path = require('path')
 
 const baseConfig = {
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['react'],
-              ['env', { modules: false }]
-            ]
-          }
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['react'],
+            ['env', { modules: false }]
+          ]
         }
       }
-    ]
+    }, {
+      test: /reset\.css$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 1,
+          mimetype: 'text/css'
+        }
+      }
+    }]
   }
 }
 
@@ -30,11 +37,10 @@ const clientConfig = {
   ...baseConfig
 }
 
-const serverConfig = {
-  name: 'server',
-  entry: './src/server.js',
-  target: 'node',
-  ...baseConfig
-}
+const serverConfig = { ...baseConfig }
+
+serverConfig.name = 'server'
+serverConfig.entry = './src/server.js'
+serverConfig.target = 'node'
 
 module.exports = [serverConfig, clientConfig]
