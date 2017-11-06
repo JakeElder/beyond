@@ -1,5 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
+const jp = require('jsonpath')
+const package = require('./package.json')
 
 module.exports = ({ DEV = false, PROD = false }) => {
 
@@ -66,7 +68,8 @@ module.exports = ({ DEV = false, PROD = false }) => {
         ident: 'postcss',
         plugins: (loader) => [
           require('postcss-import')({ root: loader.resourcePath }),
-          require('postcss-custom-properties')
+          require('postcss-custom-properties'),
+          require('autoprefixer')({ browsers: package.browserslist })
         ]
       }
     }]
@@ -91,11 +94,11 @@ module.exports = ({ DEV = false, PROD = false }) => {
   }
 
   // Add target to Babel env preset
-  const babelEnvPreset = jp.value(
+  const serverBabelEnvPreset = jp.value(
     serverConfig,
     '$..[?(@.loader===\'babel-loader\')].options.presets'
   ).find(preset => preset[0] === 'env')
-  babelEnvPreset[1].targets = { node: package.engines.node }
+  serverBabelEnvPreset[1].targets = { node: package.engines.node }
 
   if (DEV) {
     serverConfig.plugins = [
@@ -124,6 +127,13 @@ module.exports = ({ DEV = false, PROD = false }) => {
     filename: 'client.js',
     publicPath: '/assets/'
   }
+
+  // Add target to Babel env preset
+  const clientBabelEnvPreset = jp.value(
+    clientConfig,
+    '$..[?(@.loader===\'babel-loader\')].options.presets'
+  ).find(preset => preset[0] === 'env')
+  clientBabelEnvPreset[1].targets = { browsers: package.browserslist }
 
   if (DEV) {
     clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
