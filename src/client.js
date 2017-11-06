@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import { createStore } from 'redux'
+import { Provider as StoreProvider } from 'react-redux'
 import App from './components/App'
 import InsertCSSProvider from './components/InsertCSSProvider'
 import reducer from './redux/reducers'
-import { createStore } from 'redux'
-import { Provider as StoreProvider } from 'react-redux'
 
 let initialRender = true
 
@@ -37,6 +37,5 @@ function render() {
 render()
 
 if (module.hot) {
-  app.hot = module.hot
   module.hot.accept('./components/App', render)
 }

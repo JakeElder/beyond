@@ -1,20 +1,26 @@
 import React, { Component } from 'react'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
-import s from './Home.css'
 import { connect } from 'react-redux'
+import withStyles from 'isomorphic-style-loader/lib/withStyles'
+import PropTypes from 'prop-types'
+import s from './Home.css'
 import { incrementCount } from '../../redux/actions'
 
-@connect(({ count }) => ({ count }), { incrementCount })
+@connect(({ count }) => ({ count }), { handleIncrementRequest: incrementCount })
 class Home extends Component {
+  static propTypes = {
+    count: PropTypes.number.isRequired,
+    handleIncrementRequest: PropTypes.func.isRequired
+  }
+
   render() {
-    const { count, incrementCount } = this.props
+    const { count, handleIncrementRequest } = this.props
     return (
       <div className={s.root}>
         <h1>Home</h1>
         <div>
           Count: {count}
         </div>
-        <button onClick={incrementCount}>Increment</button>
+        <button onClick={handleIncrementRequest}>Increment</button>
       </div>
     )
   }
