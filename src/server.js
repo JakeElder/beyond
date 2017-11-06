@@ -29,6 +29,8 @@ app.use(ctx => {
     </StaticRouter>
   )
 
+  if (context.statusCode) { ctx.status = context.statusCode }
+
   ctx.body = `
     <!doctype html>
     <head>

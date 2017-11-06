@@ -15,7 +15,7 @@ module.exports = ({ DEV = false, PROD = false }) => {
     module: {
       rules: []
     },
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'cheap-module-inline-source-map'
   }
 
   // Loaders
@@ -97,6 +97,14 @@ module.exports = ({ DEV = false, PROD = false }) => {
     publicPath: '/assets/'
   }
 
+  serverConfig.plugins = [
+    new webpack.BannerPlugin({
+      banner: 'require("source-map-support").install();',
+      raw: true,
+      entryOnly: false,
+    })
+  ]
+
   // Add target to Babel env preset
   const serverBabelEnvPreset = jp.value(
     serverConfig,
@@ -105,7 +113,7 @@ module.exports = ({ DEV = false, PROD = false }) => {
   serverBabelEnvPreset[1].targets = { node: package.engines.node }
 
   if (DEV) {
-    serverConfig.plugins = [
+    serverConfig.plugins.push( 
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('development'),
         __BROWSER__: false,
@@ -114,7 +122,7 @@ module.exports = ({ DEV = false, PROD = false }) => {
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
-    ]
+    )
   }
 
 

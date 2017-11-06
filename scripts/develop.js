@@ -36,6 +36,7 @@ async function processUpdates(hot) {
 
   return [false, []]
 }
+
 const { compilers } = webpack([serverConfig, clientConfig])
 const serverCompiler = compilers.find(c => c.name === 'server')
 const clientCompiler = compilers.find(c => c.name === 'client')
