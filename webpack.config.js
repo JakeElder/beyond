@@ -12,7 +12,8 @@ module.exports = ({ DEV = false, PROD = false }) => {
   const baseConfig = {
     module: {
       rules: []
-    }
+    },
+    devtool: 'cheap-module-eval-source-map'
   }
 
   // Loaders
