@@ -86,6 +86,10 @@ module.exports = ({ DEV = false, PROD = false }) => {
   serverConfig.entry = './src/server.js'
   serverConfig.target = 'node'
 
+  serverConfig.externals = require('webpack-node-externals')({
+    whitelist: ['reset-css']
+  })
+
   serverConfig.output = {
     path: path.resolve('.tmp'),
     filename: 'server.js',
