@@ -67,7 +67,7 @@ serverCompiler.watch({}, async (err, stats) => {
     } else {
       delete require.cache[require.resolve(COMPILED_SERVER_FILE)]
       server = require(COMPILED_SERVER_FILE).default
-      app.middleware.splice(2, 1, mount(server))
+      app.middleware.splice(1, 1, mount(server))
       console.info(`Could not Hot Reload, app updated`)
     }
   }

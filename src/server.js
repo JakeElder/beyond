@@ -7,6 +7,9 @@ import { StaticRouter } from 'react-router'
 import resetCSS from 'reset-css'
 import serve from 'koa-static'
 import mount from 'koa-mount'
+import reducer from './redux/reducers'
+import { createStore } from 'redux'
+import { Provider as StoreProvider } from 'react-redux'
 
 const app = new Koa()
 
@@ -16,14 +19,18 @@ app.use(ctx => {
   const context = {}
   const css = new Set()
 
+  const store = createStore(reducer)
+
   const html = ReactDOM.renderToString(
     <StaticRouter
       location={ctx.url}
       context={context}
     >
-      <InsertCSSProvider css={css}>
-        <App />
-      </InsertCSSProvider>
+      <StoreProvider store={store}>
+        <InsertCSSProvider css={css}>
+          <App />
+        </InsertCSSProvider>
+      </StoreProvider>
     </StaticRouter>
   )
 
@@ -50,6 +57,7 @@ app.use(ctx => {
     </head>
     <body>
       <div id="app">${html}</div>
+      <script>window.__APP_STATE__ = ${JSON.stringify(store.getState())}</script>
       <script src="/assets/client.js"></script>
     </body>
   `

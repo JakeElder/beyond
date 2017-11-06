@@ -34,6 +34,7 @@ module.exports = ({ DEV = false }) => {
           ['env', { modules: false }]
         ],
         plugins: [
+          'transform-decorators-legacy',
           'transform-class-properties'
         ]
       }
