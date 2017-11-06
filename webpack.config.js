@@ -90,6 +90,13 @@ module.exports = ({ DEV = false, PROD = false }) => {
     publicPath: '/assets/'
   }
 
+  // Add target to Babel env preset
+  const babelEnvPreset = jp.value(
+    serverConfig,
+    '$..[?(@.loader===\'babel-loader\')].options.presets'
+  ).find(preset => preset[0] === 'env')
+  babelEnvPreset[1].targets = { node: package.engines.node }
+
   if (DEV) {
     serverConfig.plugins = [
       new webpack.DefinePlugin({
