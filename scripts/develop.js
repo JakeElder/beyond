@@ -1,21 +1,19 @@
 const path = require('path')
 const webpack = require('webpack')
-const [serverConfig, clientConfig] = require('../webpack.config')
+const [serverConfig, clientConfig] = require('../webpack.config')({ DEV: true })
 const fs = require('fs-extra')
 const Koa = require('koa')
 const mount = require('koa-mount')
 const devMiddleware = require('koa-webpack-dev-middleware')
 const hotMiddleware = require('koa-webpack-hot-middleware')
 
-const TMP_DIR = path.resolve(__dirname, '..', '.tmp')
-const SERVER_FILENAME = 'server.js'
+const TMP_DIR = serverConfig.output.path
+const SERVER_FILENAME = serverConfig.output.filename
 const COMPILED_SERVER_FILE = path.resolve(TMP_DIR, SERVER_FILENAME)
 
 const app = new Koa()
 
-app.listen(3000, () => {
-  console.log('listening')
-})
+app.listen(3000, () => console.log('Listening on port 3000'))
 
 async function exit() {
   await fs.emptyDir(TMP_DIR)
@@ -38,28 +36,6 @@ async function processUpdates(hot) {
 
   return [false, []]
 }
-
-serverConfig.output = {
-  path: TMP_DIR,
-  filename: SERVER_FILENAME,
-  libraryTarget: 'commonjs2'
-}
-
-serverConfig.plugins = serverConfig.plugins || []
-serverConfig.plugins.push(
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NamedModulesPlugin(),
-  new webpack.NoEmitOnErrorsPlugin()
-)
-
-clientConfig.plugins = clientConfig.plugins || []
-clientConfig.plugins.push(
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NamedModulesPlugin(),
-  new webpack.NoEmitOnErrorsPlugin()
-)
-clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
-
 const { compilers } = webpack([serverConfig, clientConfig])
 const serverCompiler = compilers.find(c => c.name === 'server')
 const clientCompiler = compilers.find(c => c.name === 'client')
