@@ -10,9 +10,7 @@ import mount from 'koa-mount'
 
 const app = new Koa()
 
-if (__DEV__) {
-  app.use(mount('/assets', serve('.tmp')))
-}
+app.use(mount('/assets', serve(__DEV__ ? '.tmp' : 'build')))
 
 app.use(ctx => {
   const context = {}
@@ -31,10 +29,23 @@ app.use(ctx => {
 
   if (context.statusCode) { ctx.status = context.statusCode }
 
+  const scripts = []
+
+  if (!__DEV__) {
+    const { dependencies } = require('../package.json')
+    scripts.push(
+      `https://unpkg.com/react@${dependencies['react']}/umd/react.production.min.js`,
+      `https://unpkg.com/react-dom@${dependencies['react-dom']}/umd/react-dom.production.min.js`,
+      `https://unpkg.com/react-router@${dependencies['react-router']}/umd/react-router.min.js`,
+      `https://unpkg.com/react-router-dom@${dependencies['react-router']}/umd/react-router-dom.min.js`
+    )
+  }
+
   ctx.body = `
     <!doctype html>
     <head>
       <link rel="stylesheet" href=${resetCSS} />
+      ${scripts.map(src => `<script src="${src}"></script>`).join('\n')}
       <style id="css">${[...css].join('')}</style>
     </head>
     <body>
@@ -43,6 +54,10 @@ app.use(ctx => {
     </body>
   `
 })
+
+if (!__DEV__) {
+  app.listen(80, () => console.log('App listening on port 80'))
+}
 
 if (module.hot) {
   app.hot = module.hot

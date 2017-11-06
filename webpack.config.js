@@ -2,8 +2,11 @@ const path = require('path')
 const webpack = require('webpack')
 const jp = require('jsonpath')
 const package = require('./package.json')
+const boolean = require('boolean')
 
-module.exports = ({ DEV = false, PROD = false }) => {
+module.exports = ({ DEV = false }) => {
+
+  DEV = boolean(DEV)
 
   /*
    * Base Config
@@ -12,10 +15,8 @@ module.exports = ({ DEV = false, PROD = false }) => {
    */
 
   const baseConfig = {
-    module: {
-      rules: []
-    },
-    devtool: 'cheap-module-inline-source-map'
+    module: { rules: [] },
+    devtool: DEV ? 'cheap-module-inline-source-map' : 'source-map'
   }
 
   // Loaders
@@ -60,7 +61,6 @@ module.exports = ({ DEV = false, PROD = false }) => {
         importLoaders: 1,
         localIdentName: DEV ? '[local]-[hash:base64:5]' : '[hash:base64:5]',
         modules: true,
-        sourceMap: DEV
       }
     }, {
       loader: 'postcss-loader',
@@ -91,7 +91,7 @@ module.exports = ({ DEV = false, PROD = false }) => {
   })
 
   serverConfig.output = {
-    path: path.resolve('.tmp'),
+    path: path.resolve(__dirname, DEV ? '.tmp' : 'build'),
     filename: 'server.js',
     libraryTarget: 'commonjs2',
     publicPath: '/assets/'
@@ -101,7 +101,12 @@ module.exports = ({ DEV = false, PROD = false }) => {
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,
-      entryOnly: false,
+      entryOnly: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(DEV ? 'development' : 'production'),
+      __BROWSER__: false,
+      __DEV__: DEV
     })
   ]
 
@@ -114,11 +119,6 @@ module.exports = ({ DEV = false, PROD = false }) => {
 
   if (DEV) {
     serverConfig.plugins.push( 
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('development'),
-        __BROWSER__: false,
-        __DEV__: true
-      }),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
@@ -136,8 +136,10 @@ module.exports = ({ DEV = false, PROD = false }) => {
   clientConfig.entry = './src/client.js'
 
   clientConfig.output = {
+    path: path.resolve(__dirname, 'build'),
     filename: 'client.js',
-    publicPath: '/assets/'
+    publicPath: '/assets/',
+    sourceMapFilename: '[file].map'
   }
 
   // Add target to Babel env preset
@@ -147,19 +149,29 @@ module.exports = ({ DEV = false, PROD = false }) => {
   ).find(preset => preset[0] === 'env')
   clientBabelEnvPreset[1].targets = { browsers: package.browserslist }
 
+  clientConfig.plugins = [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(DEV ? 'development' : 'production'),
+      __BROWSER__: true,
+      __DEV__: DEV
+    })
+  ]
+
   if (DEV) {
     clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
 
-    clientConfig.plugins = [
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('development'),
-        __BROWSER__: true,
-        __DEV__: true
-      }),
+    clientConfig.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
-    ]
+    )
+  } else {
+    clientConfig.externals = {
+      'react': 'React',
+      'react-dom': 'ReactDOM',
+      'react-router': 'ReactRouter',
+      'react-router-dom': 'ReactRouterDOM',
+    }
   }
 
   return [serverConfig, clientConfig]

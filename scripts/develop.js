@@ -4,8 +4,7 @@ const [serverConfig, clientConfig] = require('../webpack.config')({ DEV: true })
 const fs = require('fs-extra')
 const Koa = require('koa')
 const mount = require('koa-mount')
-const devMiddleware = require('koa-webpack-dev-middleware')
-const hotMiddleware = require('koa-webpack-hot-middleware')
+const webpackMiddleware = require('koa-webpack')
 
 const TMP_DIR = serverConfig.output.path
 const SERVER_FILENAME = serverConfig.output.filename
@@ -41,8 +40,7 @@ const { compilers } = webpack([serverConfig, clientConfig])
 const serverCompiler = compilers.find(c => c.name === 'server')
 const clientCompiler = compilers.find(c => c.name === 'client')
 
-app.use(devMiddleware(clientCompiler, { publicPath: '/assets/' }))
-app.use(hotMiddleware(clientCompiler))
+app.use(webpackMiddleware({ compiler: clientCompiler }))
 
 let initialCompile = true
 let server
