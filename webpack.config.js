@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const fs = require('fs-extra')
 const jp = require('jsonpath')
 const package = require('./package.json')
 const boolean = require('boolean')
@@ -29,17 +30,14 @@ module.exports = ({ DEV = false }) => {
     use: {
       loader: 'babel-loader',
       options: {
-        presets: [
-          ['react'],
-          ['env', { modules: false }]
-        ],
-        plugins: [
-          'transform-decorators-legacy',
-          'transform-class-properties'
-        ]
+        ...fs.readJsonSync('./.babelrc'),
+        babelrc: false
       }
     }
   })
+  baseConfig.module.rules[baseConfig.module.rules.length - 1]
+    .use.options.presets.find(p => p[0] === 'env')
+    .push({ modules: false })
 
   // Vendor CSS
   baseConfig.module.rules.push({
@@ -119,7 +117,7 @@ module.exports = ({ DEV = false }) => {
   serverBabelEnvPreset[1].targets = { node: package.engines.node }
 
   if (DEV) {
-    serverConfig.plugins.push( 
+    serverConfig.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin()
