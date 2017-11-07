@@ -7,12 +7,12 @@ class InsertCSSProvider extends Component {
   }
 
   static propTypes = {
-    css: instanceOf(Map),
+    css: instanceOf(Set),
     children: element.isRequired
   }
 
   static defaultProps = {
-    css: new Map()
+    css: new Set()
   }
 
   getChildContext() {

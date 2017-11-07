@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Error from '../Error'
+import ErrorPage from '../ErrorPage'
 
-class NotFound extends Error {
+class NotFoundPage extends Component {
   static propTypes = {
     staticContext: PropTypes.object
   }
@@ -13,8 +13,8 @@ class NotFound extends Error {
 
   render() {
     this.props.staticContext.statusCode = 404
-    return <Error title="404" body="Page Not Found" />
+    return <ErrorPage title="404" body="Page Not Found" />
   }
 }
 
-export default NotFound
+export default NotFoundPage

@@ -1,8 +1,8 @@
-import { INCREMENT_COUNT } from '../constants'
+import { COUNT_INCREMENT_APPROVED } from '../constants'
 
 function count(state = 0, action) {
   switch (action.type) {
-    case INCREMENT_COUNT:
+    case COUNT_INCREMENT_APPROVED:
       return state + 1
     default:
       return state

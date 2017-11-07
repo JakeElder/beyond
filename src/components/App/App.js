@@ -1,14 +1,14 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
-import Home from '../../pages/Home'
-import About from '../../pages/About'
-import NotFound from '../../pages/NotFound'
+import HomePage from '../../containers/HomePage'
+import AboutPage from '../AboutPage'
+import NotFoundPage from '../NotFoundPage'
 
 const App = () => (
   <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/about" component={About} />
-    <Route component={NotFound} />
+    <Route exact path="/" component={HomePage} />
+    <Route path="/about" component={AboutPage} />
+    <Route component={NotFoundPage} />
   </Switch>
 )
 

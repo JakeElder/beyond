@@ -1,18 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
+import { incrementRequestSaga } from './redux/sagas'
 import App from './components/App'
 import InsertCSSProvider from './components/InsertCSSProvider'
 import reducer from './redux/reducers'
 
 let initialRender = true
 
-const store = createStore(
-  reducer,
-  __DEV__ && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const sagaMiddleware = createSagaMiddleware()
+const middleware = [sagaMiddleware]
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)))
+
+sagaMiddleware.run(incrementRequestSaga)
 
 function render() {
   (initialRender ? ReactDOM.hydrate : ReactDOM.render)(

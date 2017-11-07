@@ -19,7 +19,8 @@
       "error", {
          "packageDir": "./"
       }
-    ]
+    ],
+    "import/prefer-default-export": 0
   }
 
 }

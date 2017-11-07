@@ -134,7 +134,7 @@ module.exports = ({ DEV = false }) => {
   const clientConfig = { ...baseConfig }
 
   clientConfig.name = 'client'
-  clientConfig.entry = './src/client.js'
+  clientConfig.entry = ['babel-polyfill', './src/client.js']
 
   clientConfig.output = {
     path: path.resolve(__dirname, 'build'),
@@ -159,7 +159,7 @@ module.exports = ({ DEV = false }) => {
   ]
 
   if (DEV) {
-    clientConfig.entry = ['webpack-hot-middleware/client', clientConfig.entry]
+    clientConfig.entry.splice(1, 0, 'webpack-hot-middleware/client')
 
     clientConfig.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
