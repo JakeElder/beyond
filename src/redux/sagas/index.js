@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { COUNT_INCREMENT_REQUESTED } from '../constants'
-import * as Count from '../../models/Count'
+import * as Count from '../../models/count'
 
 import {
   countIncrementApproved,

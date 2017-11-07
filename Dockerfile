@@ -9,7 +9,7 @@ ADD yarn.lock /u/app/yarn.lock
 RUN yarn
 
 ADD . /u/app
-RUN ./node_modules/.bin/webpack -p --env.DEV=false
+RUN ./node_modules/.bin/webpack --env.DEV=false
 
 RUN mv build/server.js .
 

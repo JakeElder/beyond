@@ -51,7 +51,7 @@ serverCompiler.watch({}, async (err, stats) => {
       hash: false,
       version: false,
       timings: false,
-      colors: true 
+      colors: true
     }))
     return exit()
   }

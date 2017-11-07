@@ -1,5 +1,4 @@
 import React from 'react'
-import withStyles from 'isomorphic-style-loader/lib/withStyles'
 import PropTypes from 'prop-types'
 import s from './HomePage.css'
 
@@ -25,4 +24,4 @@ HomePage.propTypes = {
   handleIncrementRequest: PropTypes.func.isRequired
 }
 
-export default withStyles(s)(HomePage)
+export default HomePage

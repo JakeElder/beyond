@@ -9,7 +9,6 @@ import { Provider as StoreProvider } from 'react-redux'
 import { StaticRouter } from 'react-router'
 
 import App from './components/App'
-import InsertCSSProvider from './components/InsertCSSProvider'
 import reducer from './redux/reducers'
 import pkg from '../package.json'
 
@@ -29,9 +28,7 @@ app.use((ctx) => {
       context={context}
     >
       <StoreProvider store={store}>
-        <InsertCSSProvider css={css}>
-          <App />
-        </InsertCSSProvider>
+        <App />
       </StoreProvider>
     </StaticRouter>
   ))
@@ -39,6 +36,7 @@ app.use((ctx) => {
   if (context.statusCode) { ctx.status = context.statusCode }
 
   const scripts = []
+  const styles = [resetCSS]
 
   if (!__DEV__) {
     const { dependencies } = pkg
@@ -48,14 +46,14 @@ app.use((ctx) => {
       `https://unpkg.com/react-router@${dependencies['react-router']}/umd/react-router.min.js`,
       `https://unpkg.com/react-router-dom@${dependencies['react-router']}/umd/react-router-dom.min.js`
     )
+    styles.push('/assets/styles.css')
   }
 
   ctx.body = `
     <!doctype html>
     <head>
-      <link rel="stylesheet" href=${resetCSS} />
-      ${scripts.map(src => `<script src="${src}"></script>`).join('\n')}
-      <style id="css">${[...css].join('')}</style>
+      ${styles.map(s => `<link rel="stylesheet" href="${s}" />`).join('\n')}
+      ${scripts.map(s => `<script src="${s}"></script>`).join('\n')}
     </head>
     <body>
       <div id="app">${html}</div>

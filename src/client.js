@@ -6,7 +6,6 @@ import { Provider as StoreProvider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import { incrementRequestSaga } from './redux/sagas'
 import App from './components/App'
-import InsertCSSProvider from './components/InsertCSSProvider'
 import reducer from './redux/reducers'
 
 let initialRender = true
@@ -23,9 +22,7 @@ function render() {
   (initialRender ? ReactDOM.hydrate : ReactDOM.render)(
     <BrowserRouter>
       <StoreProvider store={store}>
-        <InsertCSSProvider>
-          <App />
-        </InsertCSSProvider>
+        <App />
       </StoreProvider>
     </BrowserRouter>,
     document.getElementById('app'),

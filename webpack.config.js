@@ -4,6 +4,8 @@ const fs = require('fs-extra')
 const jp = require('jsonpath')
 const package = require('./package.json')
 const boolean = require('boolean')
+const clone = require('clone')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = ({ DEV = false }) => {
 
@@ -52,14 +54,12 @@ module.exports = ({ DEV = false }) => {
     test: /\.css$/,
     include: path.resolve(__dirname, 'src'),
     rules: [{
-      loader: 'isomorphic-style-loader',
-      issuer: { not: [/\.css$/] }
-    }, {
       loader: 'css-loader',
       options: {
         importLoaders: 1,
-        localIdentName: DEV ? '[local]-[hash:base64:5]' : '[hash:base64:5]',
+        localIdentName: '[name]-[local]',
         modules: true,
+        sourceMap: true
       }
     }, {
       loader: 'postcss-loader',
@@ -79,7 +79,7 @@ module.exports = ({ DEV = false }) => {
    * =============
    */
 
-  const serverConfig = { ...baseConfig }
+  const serverConfig = clone(baseConfig)
 
   serverConfig.name = 'server'
   serverConfig.entry = './src/server.js'
@@ -105,7 +105,7 @@ module.exports = ({ DEV = false }) => {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(DEV ? 'development' : 'production'),
       __BROWSER__: false,
-      __DEV__: DEV
+      __DEV__: JSON.stringify(DEV)
     })
   ]
 
@@ -115,6 +115,12 @@ module.exports = ({ DEV = false }) => {
     '$..[?(@.loader===\'babel-loader\')].options.presets'
   ).find(preset => preset[0] === 'env')
   serverBabelEnvPreset[1].targets = { node: package.engines.node }
+
+  // Add css-modules-locals-loader to css rules
+  const serverCssRules = jp.parent(
+    serverConfig,
+    '$..[?(@.loader===\'css-loader\')]'
+  ).unshift({ loader: 'css-modules-locals-loader' })
 
   if (DEV) {
     serverConfig.plugins.push(
@@ -129,7 +135,7 @@ module.exports = ({ DEV = false }) => {
    * Client Config
    * =============
    */
-  const clientConfig = { ...baseConfig }
+  const clientConfig = clone(baseConfig)
 
   clientConfig.name = 'client'
   clientConfig.entry = ['babel-polyfill', './src/client.js']
@@ -159,6 +165,12 @@ module.exports = ({ DEV = false }) => {
   if (DEV) {
     clientConfig.entry.splice(1, 0, 'webpack-hot-middleware/client')
 
+    // Add style-loader to css rules
+    clientConfig.module.rules[2].rules.unshift({
+      loader: 'style-loader',
+      options: { sourceMap: true }
+    })
+
     clientConfig.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
@@ -169,9 +181,18 @@ module.exports = ({ DEV = false }) => {
       'react': 'React',
       'react-dom': 'ReactDOM',
       'react-router': 'ReactRouter',
-      'react-router-dom': 'ReactRouterDOM',
+      'react-router-dom': 'ReactRouterDOM'
     }
+    clientConfig.module.rules[2].use = ExtractTextPlugin.extract({
+      fallback: "style-loader",
+      use: clientConfig.module.rules[2].rules
+    })
+    delete clientConfig.module.rules[2].rules
+    clientConfig.plugins.push(new ExtractTextPlugin('styles.css'))
   }
+
+  // const util = require('util')
+  // console.log(util.inspect(clientConfig, false, null))
 
   return [serverConfig, clientConfig]
 }
