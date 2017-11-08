@@ -18,7 +18,6 @@ app.use(mount('/assets', serve(__DEV__ ? '.tmp' : 'build')))
 
 app.use((ctx) => {
   const context = {}
-  const css = new Set()
 
   const store = createStore(reducer)
 

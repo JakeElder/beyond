@@ -37,9 +37,18 @@ module.exports = ({ DEV = false }) => {
       }
     }
   })
-  baseConfig.module.rules[baseConfig.module.rules.length - 1]
+  // Remove transform-postcss Babel transform used for testing
+  const transformPostCSSIndex = baseConfig.module.rules[0]
+    .use.options.plugins.findIndex(p => p === 'transform-postcss')
+  baseConfig.module.rules[0]
+    .use.options.plugins.splice(transformPostCSSIndex, 1)
+  // Add modules: false to env preset to enable Webpack HMR for ES modules
+  baseConfig.module.rules[0]
     .use.options.presets.find(p => p[0] === 'env')
     .push({ modules: false })
+
+  // const util = require('util')
+  // console.log(util.inspect(baseConfig, false, null))
 
   // Vendor CSS
   baseConfig.module.rules.push({
@@ -59,7 +68,8 @@ module.exports = ({ DEV = false }) => {
         importLoaders: 1,
         localIdentName: '[name]-[local]',
         modules: true,
-        sourceMap: true
+        sourceMap: true,
+        camelCase: true
       }
     }, {
       loader: 'postcss-loader',
@@ -162,14 +172,15 @@ module.exports = ({ DEV = false }) => {
     })
   ]
 
+
+  // Add style-loader to css rules
+  clientConfig.module.rules[2].rules.unshift({
+    loader: 'style-loader',
+    options: { sourceMap: true }
+  })
+
   if (DEV) {
     clientConfig.entry.splice(1, 0, 'webpack-hot-middleware/client')
-
-    // Add style-loader to css rules
-    clientConfig.module.rules[2].rules.unshift({
-      loader: 'style-loader',
-      options: { sourceMap: true }
-    })
 
     clientConfig.plugins.push(
       new webpack.HotModuleReplacementPlugin(),
@@ -190,9 +201,6 @@ module.exports = ({ DEV = false }) => {
     delete clientConfig.module.rules[2].rules
     clientConfig.plugins.push(new ExtractTextPlugin('styles.css'))
   }
-
-  // const util = require('util')
-  // console.log(util.inspect(clientConfig, false, null))
 
   return [serverConfig, clientConfig]
 }
