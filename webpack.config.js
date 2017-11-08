@@ -47,9 +47,6 @@ module.exports = ({ DEV = false }) => {
     .use.options.presets.find(p => p[0] === 'env')
     .push({ modules: false })
 
-  // const util = require('util')
-  // console.log(util.inspect(baseConfig, false, null))
-
   // Vendor CSS
   baseConfig.module.rules.push({
     test: /reset\.css$/,
