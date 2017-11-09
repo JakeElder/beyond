@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux'
+import { VIDEO_DETAIL_LINK_CLICKED } from '../constants'
 
 function activeVideoId(state = null, action) {
   switch (action.type) {
+    case VIDEO_DETAIL_LINK_CLICKED:
+      return action.id
     default:
       return state
   }

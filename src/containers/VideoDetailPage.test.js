@@ -3,7 +3,7 @@ import configureStore from 'redux-mock-store'
 import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import VideoDetailPage from './VideoDetailPage'
-import { videoPropsWithDefaults } from '../components/Video/test-helpers'
+import { videoPropsWithDefaults } from '../components/VideoSummary/test-helpers'
 
 configure({ adapter: new Adapter() })
 
@@ -20,7 +20,6 @@ describe('VideoListPage', () => {
     }
     const store = createMockStore(state)
     const wrapper = mount(<VideoDetailPage />, { context: { store } })
-    expect(wrapper.find('.Video-root').length).toBe(1)
-    expect(wrapper.find('.Video-heading').text()).toBe('Tha Video')
+    expect(wrapper.find('.VideoDetailPage-heading').text()).toBe('Tha Video')
   })
 })

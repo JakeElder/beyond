@@ -19,6 +19,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "dateformat": "^3.0.2",
+    "dom-matches": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
     "koa": "^2.3.0",
     "koa-mount": "^3.0.0",

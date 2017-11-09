@@ -18,7 +18,7 @@ describe('/', () => {
   it('renders a list of 10 videos', async () => {
     const document = await getDocumentForPath('/')
     expect(document.querySelectorAll('.VideoListPage-root').length).toBe(1)
-    expect(document.querySelectorAll('.Video-root').length).toBe(10)
+    expect(document.querySelectorAll('.VideoSummary-root').length).toBe(10)
   })
 })
 
@@ -31,7 +31,6 @@ describe('/videos/:id', async () => {
   it('renders the details for one video', async () => {
     const document = await getDocumentForPath('/videos/X0qwQqwKLlM')
     expect(document.querySelectorAll('.VideoDetailPage-root').length).toBe(1)
-    expect(document.querySelectorAll('.Video-root').length).toBe(1)
-    expect(document.querySelector('.Video-heading').textContent).toBe('Lamb Angelica')
+    expect(document.querySelector('.VideoDetailPage-heading').textContent).toBe('Lamb Angelica')
   })
 })

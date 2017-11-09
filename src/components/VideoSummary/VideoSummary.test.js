@@ -2,25 +2,25 @@ import React from 'react'
 import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import dateFormat from 'dateformat'
-import Video from './Video'
+import VideoSummary from './VideoSummary'
 import { videoPropsWithDefaults } from './test-helpers'
 
 configure({ adapter: new Adapter() })
 
-describe('Video', () => {
+describe('VideoSummary', () => {
   test('shows the published date in the correct format', () => {
     const props = videoPropsWithDefaults({
       publishedAt: dateFormat('Jan 1 2001', 'isoUtcDateTime')
     })
-    const wrapper = shallow(<Video {...props} />)
-    expect(wrapper.find('.Video-publishedAt').text()).toBe('Jan 1, 2001')
+    const wrapper = shallow(<VideoSummary {...props} />)
+    expect(wrapper.find('.VideoSummary-publishedAt').text()).toBe('Jan 1, 2001')
   })
 
   it('doesn\'t show a date when null', () => {
     const props = videoPropsWithDefaults({
       publishedAt: null
     })
-    const wrapper = shallow(<Video {...props} />)
-    expect(wrapper.find('.Video-publishedAt').length).toBe(0)
+    const wrapper = shallow(<VideoSummary {...props} />)
+    expect(wrapper.find('.VideoSummary-publishedAt').length).toBe(0)
   })
 })

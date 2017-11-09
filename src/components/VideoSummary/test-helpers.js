@@ -5,5 +5,6 @@ export const videoPropsWithDefaults = props => defaults(props, {
   publishedAt: new Date().toString(),
   title: 'Some Video',
   thumbnail: 'https://lorempixel.com/400/200',
-  description: 'A video and that'
+  description: 'A video and that',
+  link: '/videos/s0m31d'
 })

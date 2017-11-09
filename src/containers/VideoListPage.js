@@ -1,6 +1,67 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import matches from 'dom-matches'
+import PropTypes from 'prop-types'
+import { videoDetailLinkClicked } from '../redux/actions'
 import VideoListPage from '../components/VideoListPage'
 
-const mapStateToProps = ({ videos }) => ({ videos })
+class VideoListPageContainer extends Component {
+  static propTypes = {
+    videos: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
+  }
 
-export default connect(mapStateToProps)(VideoListPage)
+  /*
+   * This function listens for click/touch/keyboard presses on child anchors
+   * in order to provide pushState navigation
+   * This is in order to keep components as dumb and away from application
+   * logic as possible
+   */
+  handleClick = (e) => {
+    let node = e.target
+    // Traverse up the tree to see if the target has an <a data-push> as an
+    // ancestor
+    do {
+      if (matches(node, 'a[data-push]')) {
+        // Dispatch an action that will update the state so the following
+        // pushState navigation will know which page to display
+        const action = videoDetailLinkClicked(node.getAttribute('data-id'))
+        this.props.dispatch(action)
+        // Prevent browser navigation and push the new url
+        e.preventDefault()
+        this.props.history.push(node.getAttribute('href'))
+      }
+      node = node.parentNode
+    } while (node)
+  }
+
+  render() {
+    // Add link to videos
+    // Best to keep this out of the model as it can be derived from model data
+    const videos = this.props.videos.map(v =>
+      Object.assign({}, v, { link: `/videos/${v.id}` }))
+
+    // As this div is handling events bubbled up from an (accesible) anchor
+    // tag these rules can be disabled without impacting accessibility
+    /*
+      eslint-disable
+      jsx-a11y/click-events-have-key-events,
+      jsx-a11y/no-static-element-interactions
+    */
+    return (
+      <div onClick={this.handleClick}>
+        <VideoListPage videos={videos} />
+      </div>
+    )
+    /*
+      eslint-enable
+      jsx-a11y/click-events-have-key-events,
+      jsx-a11y/no-static-element-interactions
+    */
+  }
+}
+
+const mapStateToProps = ({ videos }) => ({ videos })
+export default withRouter(connect(mapStateToProps)(VideoListPageContainer))
