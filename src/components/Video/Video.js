@@ -13,7 +13,7 @@ const Video = ({
   thumbnail,
   description
 }) => (
-  <div className={s.root}>
+  <div data-id={id} className={s.root}>
     <div className={s.meta}>
       <h2 className={s.heading}>{title}</h2>
       {publishedAt &&
@@ -21,6 +21,10 @@ const Video = ({
           {dateFormat(new Date(publishedAt), DATE_FORMAT)}
         </time>
       }
+      <img src={thumbnail} alt="" />
+      <div className={s.description}>
+        {description}
+      </div>
     </div>
   </div>
 )
@@ -31,6 +35,10 @@ Video.propTypes = {
   title: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired
+}
+
+Video.defaultProps = {
+  publishedAt: null
 }
 
 export default Video

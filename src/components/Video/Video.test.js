@@ -2,8 +2,8 @@ import React from 'react'
 import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import dateFormat from 'dateformat'
-import Video from '../Video'
-import { videoPropsWithDefaults } from './helpers'
+import Video from './Video'
+import { videoPropsWithDefaults } from './test-helpers'
 
 configure({ adapter: new Adapter() })
 

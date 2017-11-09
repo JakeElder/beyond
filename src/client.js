@@ -30,7 +30,7 @@ function render() {
       </StoreProvider>
     </BrowserRouter>,
     document.getElementById('app'),
-    () => initialRender = false
+    () => { initialRender = false }
   )
 }
 

@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import path from 'path'
-import { googleItemToVideo, all } from '../video'
+import { googleItemToVideo, all } from './video'
 
 const expectedVideo = {
   id: 'X0qwQqwKLlM',
@@ -22,7 +22,7 @@ describe('all', () => {
 
 describe('googleItemToVideo', () => {
   it('transforms the response to only include useful data', () => {
-    const jsonPath = path.resolve(__dirname, '..', '__fixtures__', 'playlistitems-response.json')
+    const jsonPath = path.resolve(__dirname, '__fixtures__', 'playlistitems-response.json')
     const response = fs.readJsonSync(jsonPath)
     const transformed = googleItemToVideo(response.items[0])
     expect(transformed).toEqual(expectedVideo)

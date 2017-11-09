@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import VideoList from '../VideoList'
-import { videoPropsWithDefaults } from '../../Video/__tests__/helpers'
+import VideoList from './VideoList'
+import { videoPropsWithDefaults } from '../Video/test-helpers'
 
 configure({ adapter: new Adapter() })
 

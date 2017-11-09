@@ -1,6 +1,6 @@
 import request from 'supertest'
-import server from './server'
 import { JSDOM } from 'jsdom'
+import server from './server'
 
 describe('/', () => {
   it('returns 200', async () => {

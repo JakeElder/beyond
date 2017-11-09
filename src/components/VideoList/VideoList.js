@@ -5,17 +5,15 @@ import s from './VideoList.css'
 
 const VideoList = ({ videos }) => (
   <ul className={s.root}>
-    {videos.map(video => {
-      return (
-        <li key={video.id} className={s.video}>
-          <Video {...video} />
-        </li>
-      )
-    })}
+    {videos.map(video => ((
+      <li key={video.id} className={s.video}>
+        <Video {...video} />
+      </li>
+    )))}
   </ul>
 )
 
-VideoList.PropTypes = {
+VideoList.propTypes = {
   videos: PropTypes.array.isRequired
 }
 
