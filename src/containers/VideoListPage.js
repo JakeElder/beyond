@@ -3,9 +3,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import matches from 'dom-matches'
 import PropTypes from 'prop-types'
-import { videoDetailLinkClicked } from '../redux/actions'
 import VideoListPage from '../components/VideoListPage'
 import LoadingPage from '../components/LoadingPage'
+import {
+  videoDetailLinkClicked,
+  videoListPageNavigatedToWithoutData
+} from '../redux/actions'
 
 class VideoListPageContainer extends Component {
   static propTypes = {
@@ -13,6 +16,13 @@ class VideoListPageContainer extends Component {
     dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     videosLoaded: PropTypes.bool.isRequired
+  }
+
+  componentWillMount() {
+    const { videosLoaded, dispatch } = this.props
+    if (__BROWSER__ && !videosLoaded) {
+      dispatch(videoListPageNavigatedToWithoutData())
+    }
   }
 
   /*

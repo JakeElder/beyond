@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
-// import { incrementRequestSaga } from './redux/sagas'
+import { videoListPageNavigatedToWithoutDataSaga } from './redux/sagas/video-list-page-navigated-to-without-data'
 import App from './components/App'
 import reducer from './redux/reducers'
 
@@ -20,7 +20,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 )
 
-// sagaMiddleware.run(incrementRequestSaga)
+sagaMiddleware.run(videoListPageNavigatedToWithoutDataSaga)
 
 function render() {
   (initialRender ? ReactDOM.hydrate : ReactDOM.render)(

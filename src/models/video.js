@@ -1,4 +1,7 @@
+// TODO: Rather than be used on the front and back end, front end requests
+// should be proxied via the backend so the api key isn't exposed
 import qs from 'qs'
+
 
 // TODO: Factor out in to config/params
 const API_URL = 'https://www.googleapis.com/youtube/v3/'

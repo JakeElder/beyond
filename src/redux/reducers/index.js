@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux'
-import { VIDEO_DETAIL_LINK_CLICKED } from '../constants'
+import {
+  VIDEO_DETAIL_LINK_CLICKED,
+  VIDEO_LIST_DATA_FETCHED
+} from '../constants'
 
 function activeVideoId(state = null, action) {
   switch (action.type) {
@@ -12,6 +15,8 @@ function activeVideoId(state = null, action) {
 
 function videos(state = [], action) {
   switch (action.type) {
+    case VIDEO_LIST_DATA_FETCHED:
+      return action.videos
     default:
       return state
   }
@@ -19,6 +24,8 @@ function videos(state = [], action) {
 
 function listLoadPerformed(state = false, action) {
   switch (action.type) {
+    case VIDEO_LIST_DATA_FETCHED:
+      return true
     default:
       return state
   }
