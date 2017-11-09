@@ -1,0 +1,64 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "\"ld9biNPKjAjgjV7EZ4EKeEGrhao/5zpCcx9lb2urT7PO6x6FDpnwl9g\"",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  },
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "\"ld9biNPKjAjgjV7EZ4EKeEGrhao/KV-uUZxs-gDN_f9GDxLJPlvdj0Y\"",
+      "id": "X0qwQqwKLlM",
+      "snippet": {
+        "publishedAt": "2009-09-07T15:09:56.000Z",
+        "channelId": "UCjO8UtjT-YtdEtDbqLcepPQ",
+        "title": "Lamb Angelica",
+        "description": "From Lamb's 2003 album Between Darkness and Wonder",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/X0qwQqwKLlM/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/X0qwQqwKLlM/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/X0qwQqwKLlM/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          }
+        },
+        "channelTitle": "ST3LIANA",
+        "tags": [
+          "Lamb",
+          "Angelica"
+        ],
+        "categoryId": "10",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "title": "Lamb Angelica",
+          "description": "From Lamb's 2003 album Between Darkness and Wonder"
+        }
+      },
+      "contentDetails": {
+        "duration": "PT3M43S",
+        "dimension": "2d",
+        "definition": "sd",
+        "caption": "false",
+        "licensedContent": false,
+        "projection": "rectangular"
+      },
+      "status": {
+        "uploadStatus": "processed",
+        "privacyStatus": "public",
+        "license": "youtube",
+        "embeddable": true,
+        "publicStatsViewable": false
+      }
+    }
+  ]
+}
