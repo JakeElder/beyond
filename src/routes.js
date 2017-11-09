@@ -9,7 +9,10 @@ const routes = [{
   component: VideoListPage,
   getData: async () => {
     const videos = await Video.all()
-    return { videos }
+    return {
+      videos,
+      listLoadPerformed: true
+    }
   }
 }, {
   path: '/videos/:id',

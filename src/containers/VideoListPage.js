@@ -5,12 +5,14 @@ import matches from 'dom-matches'
 import PropTypes from 'prop-types'
 import { videoDetailLinkClicked } from '../redux/actions'
 import VideoListPage from '../components/VideoListPage'
+import LoadingPage from '../components/LoadingPage'
 
 class VideoListPageContainer extends Component {
   static propTypes = {
     videos: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    videosLoaded: PropTypes.bool.isRequired
   }
 
   /*
@@ -38,30 +40,42 @@ class VideoListPageContainer extends Component {
   }
 
   render() {
+    const { videos, videosLoaded } = this.props
+
     // Add link to videos
     // Best to keep this out of the model as it can be derived from model data
-    const videos = this.props.videos.map(v =>
+    const videosWithLinks = videos.map(v =>
       Object.assign({}, v, { link: `/videos/${v.id}` }))
 
-    // As this div is handling events bubbled up from an (accesible) anchor
-    // tag these rules can be disabled without impacting accessibility
-    /*
-      eslint-disable
-      jsx-a11y/click-events-have-key-events,
-      jsx-a11y/no-static-element-interactions
-    */
-    return (
-      <div onClick={this.handleClick}>
-        <VideoListPage videos={videos} />
-      </div>
-    )
-    /*
-      eslint-enable
-      jsx-a11y/click-events-have-key-events,
-      jsx-a11y/no-static-element-interactions
-    */
+    if (videosLoaded) {
+      // As this div is handling events bubbled up from an (accesible) anchor
+      // tag these rules can be disabled without impacting accessibility
+      /*
+        eslint-disable
+        jsx-a11y/click-events-have-key-events,
+        jsx-a11y/no-static-element-interactions
+      */
+      return (
+        <div onClick={this.handleClick}>
+          <VideoListPage videos={videosWithLinks} />
+        </div>
+      )
+      /*
+        eslint-enable
+        jsx-a11y/click-events-have-key-events,
+        jsx-a11y/no-static-element-interactions
+      */
+    }
+
+    return <LoadingPage />
   }
 }
 
-const mapStateToProps = ({ videos }) => ({ videos })
+const mapStateToProps = ({
+  videos,
+  listLoadPerformed
+}) => ({
+  videos,
+  videosLoaded: listLoadPerformed
+})
 export default withRouter(connect(mapStateToProps)(VideoListPageContainer))

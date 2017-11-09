@@ -17,7 +17,15 @@ function videos(state = [], action) {
   }
 }
 
+function listLoadPerformed(state = false, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   activeVideoId,
-  videos
+  videos,
+  listLoadPerformed
 })
