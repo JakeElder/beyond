@@ -22,8 +22,9 @@ app.use(async (ctx, next) => {
   ctx.initialState = {}
 
   const promises = routes.reduce((arr, route) => {
-    if (matchPath(ctx.url, route) && route.getData) {
-      arr.push(route.getData())
+    const match = matchPath(ctx.url, route)
+    if (match && route.getData) {
+      arr.push(route.getData(match.params))
     }
     return arr
   }, [])
