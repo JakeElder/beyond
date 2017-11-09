@@ -14,7 +14,11 @@ const sagaMiddleware = createSagaMiddleware()
 const middleware = [sagaMiddleware]
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)))
+const store = createStore(
+  reducer,
+  window.__APP_STATE__,
+  composeEnhancers(applyMiddleware(...middleware))
+)
 
 // sagaMiddleware.run(incrementRequestSaga)
 
@@ -26,13 +30,7 @@ function render() {
       </StoreProvider>
     </BrowserRouter>,
     document.getElementById('app'),
-    () => {
-      if (initialRender) {
-        const elem = document.getElementById('css')
-        if (elem) { elem.parentNode.removeChild(elem) }
-        initialRender = false
-      }
-    }
+    () => initialRender = false
   )
 }
 

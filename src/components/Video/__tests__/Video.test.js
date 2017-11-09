@@ -15,4 +15,12 @@ describe('Video', () => {
     const wrapper = shallow(<Video {...props} />)
     expect(wrapper.find('.Video-publishedAt').text()).toBe('Jan 1, 2001')
   })
+
+  it('doesn\'t show a date when null', () => {
+    const props = videoPropsWithDefaults({
+      publishedAt: null
+    })
+    const wrapper = shallow(<Video {...props} />)
+    expect(wrapper.find('.Video-publishedAt').length).toBe(0)
+  })
 })

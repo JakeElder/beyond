@@ -1,10 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
-import NotFoundPage from '../NotFoundPage'
+import routes from '../../routes'
 
 const App = () => (
   <Switch>
-    <Route component={NotFoundPage} />
+    {routes.map((route, idx) => <Route key={`route-${idx}`} {...route} />)}
   </Switch>
 )
 

@@ -112,7 +112,9 @@ module.exports = ({ DEV = false }) => {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(DEV ? 'development' : 'production'),
       __BROWSER__: false,
-      __DEV__: JSON.stringify(DEV)
+      __DEV__: JSON.stringify(DEV),
+      __PROD__: JSON.stringify(!DEV),
+      __TEST__: false
     })
   ]
 
@@ -165,7 +167,9 @@ module.exports = ({ DEV = false }) => {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(DEV ? 'development' : 'production'),
       __BROWSER__: true,
-      __DEV__: DEV
+      __DEV__: DEV,
+      __PROD__: JSON.stringify(!DEV),
+      __TEST__: false
     })
   ]
 

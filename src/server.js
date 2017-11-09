@@ -6,20 +6,37 @@ import serve from 'koa-static'
 import mount from 'koa-mount'
 import { createStore } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
-import { StaticRouter } from 'react-router'
+import { StaticRouter, matchPath } from 'react-router'
+import 'isomorphic-fetch'
 
 import App from './components/App'
 import reducer from './redux/reducers'
 import pkg from '../package.json'
+import routes from './routes'
 
 const app = new Koa()
 
 app.use(mount('/assets', serve(__DEV__ ? '.tmp' : 'build')))
 
+app.use(async (ctx, next) => {
+  ctx.initialState = {}
+
+  const promises = routes.reduce((arr, route) => {
+    if (matchPath(ctx.url, route) && route.getData) {
+      arr.push(route.getData())
+    }
+    return arr
+  }, [])
+
+  const data = await Promise.all(promises)
+  Object.assign(ctx.initialState, ...data)
+
+  next()
+})
+
 app.use((ctx) => {
   const context = {}
-
-  const store = createStore(reducer)
+  const store = createStore(reducer, ctx.initialState)
 
   const html = ReactDOM.renderToString((
     <StaticRouter
@@ -37,7 +54,7 @@ app.use((ctx) => {
   const scripts = []
   const styles = [resetCSS]
 
-  if (!__DEV__) {
+  if (__PROD__) {
     const { dependencies } = pkg
     scripts.push(
       `https://unpkg.com/react@${dependencies.react}/umd/react.production.min.js`,
@@ -62,7 +79,7 @@ app.use((ctx) => {
   `
 })
 
-if (!__DEV__) {
+if (__PROD__) {
   /* eslint-disable no-console */
   app.listen(80, () => console.log('App listening on port 80'))
   /* eslint-enable no-console */

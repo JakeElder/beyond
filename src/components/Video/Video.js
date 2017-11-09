@@ -16,16 +16,18 @@ const Video = ({
   <div className={s.root}>
     <div className={s.meta}>
       <h2 className={s.heading}>{title}</h2>
-      <time dateTime={publishedAt} className={s.publishedAt}>
-        {dateFormat(new Date(publishedAt), DATE_FORMAT)}
-      </time>
+      {publishedAt &&
+        <time dateTime={publishedAt} className={s.publishedAt}>
+          {dateFormat(new Date(publishedAt), DATE_FORMAT)}
+        </time>
+      }
     </div>
   </div>
 )
 
 Video.propTypes = {
   id: PropTypes.string.isRequired,
-  publishedAt: PropTypes.string.isRequired,
+  publishedAt: PropTypes.string,
   title: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired
