@@ -16,18 +16,23 @@ const VideoSummary = ({
 }) => (
   <div className={s.root}>
     <div className={s.meta}>
-      <a data-push data-id={id} href={link} title={title}>
+      <a className={s.link} data-push data-id={id} href={link} title={title}>
         <h2 className={s.heading}>{title}</h2>
-        {publishedAt &&
-          <time dateTime={publishedAt} className={s.publishedAt}>
+      </a>
+      {publishedAt &&
+        <div className={s.publishedAt}>
+          <span className={s.publishedAtLabel}>Published: </span>
+          <time className={s.publishedAtDate} dateTime={publishedAt}>
             {dateFormat(new Date(publishedAt), DATE_FORMAT)}
           </time>
-        }
-        <img src={thumbnail} alt="" />
-      </a>
-      <div className={s.description}>
-        {description}
-      </div>
+        </div>
+      }
+    </div>
+    <a className={s.link} data-push data-id={id} href={link} title={title}>
+      <img className={s.thumbnail} src={thumbnail} alt="" />
+    </a>
+    <div className={s.description}>
+      {description}
     </div>
   </div>
 )

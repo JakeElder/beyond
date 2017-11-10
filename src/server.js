@@ -69,6 +69,8 @@ app.use((ctx) => {
   ctx.body = `
     <!doctype html>
     <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Cabin|Open+Sans" rel="stylesheet">
       ${styles.map(s => `<link rel="stylesheet" href="${s}" />`).join('\n')}
       ${scripts.map(s => `<script src="${s}"></script>`).join('\n')}
     </head>

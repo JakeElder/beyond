@@ -1,0 +1,37 @@
+.heading {
+  font-family: 'Cabin', sans-serif;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.underlined {
+  padding-bottom: 12px;
+  border-bottom: 1px solid black;
+}
+
+.body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.large {
+  font-size: 28px;
+}
+
+.medium {
+  font-size: 22px;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.link {
+  text-decoration: none;
+  color: #00b158;
+}
+
+.unobtrusive {
+  color: #555;
+}

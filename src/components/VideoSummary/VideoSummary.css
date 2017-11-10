@@ -2,10 +2,34 @@
 }
 
 .meta {
+  composes: margin-bottom-small from '../../abstract-styles/layout.css';
+}
+
+.link {
+  composes: link from '../../abstract-styles/typography.css';
+  display: block;
 }
 
 .heading {
+  composes: medium heading from '../../abstract-styles/typography.css';
+  composes: margin-bottom-x-small from '../../abstract-styles/layout.css';
 }
 
-.publishedAt {
+.published-at {
+  composes: small unobtrusive body from '../../abstract-styles/typography.css';
+}
+
+.published-at-label {
+}
+
+.published-at-date {
+}
+
+.thumbnail {
+  width: 100%;
+  composes: margin-bottom-small from '../../abstract-styles/layout.css';
+}
+
+.description {
+  display: none;
 }

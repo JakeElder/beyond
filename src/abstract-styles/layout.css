@@ -1,5 +1,31 @@
-.container {
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+:root {
+  --vertical-spacing-x-large: 26px;
+  --vertical-spacing-large: 20px;
+  --vertical-spacing-medium: 16px;
+  --vertical-spacing-small: 10px;
+  --vertical-spacing-x-small: 3px;
+}
+
+.margin-bottom-x-large {
+  margin-bottom: var(--vertical-spacing-x-large);
+}
+
+.margin-bottom-large {
+  margin-bottom: var(--vertical-spacing-large);
+}
+
+.margin-bottom-medium {
+  margin-bottom: var(--vertical-spacing-medium);
+}
+
+.margin-bottom-small {
+  margin-bottom: var(--vertical-spacing-small);
+}
+
+.margin-bottom-x-small {
+  margin-bottom: var(--vertical-spacing-x-small);
+}
+
+.page-padding {
+  padding: 20px;
 }

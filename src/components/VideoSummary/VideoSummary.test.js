@@ -13,7 +13,7 @@ describe('VideoSummary', () => {
       publishedAt: dateFormat('Jan 1 2001', 'isoUtcDateTime')
     })
     const wrapper = shallow(<VideoSummary {...props} />)
-    expect(wrapper.find('.VideoSummary-publishedAt').text()).toBe('Jan 1, 2001')
+    expect(wrapper.find('.VideoSummary-published-at-date').text()).toBe('Jan 1, 2001')
   })
 
   it('doesn\'t show a date when null', () => {
@@ -21,6 +21,6 @@ describe('VideoSummary', () => {
       publishedAt: null
     })
     const wrapper = shallow(<VideoSummary {...props} />)
-    expect(wrapper.find('.VideoSummary-publishedAt').length).toBe(0)
+    expect(wrapper.find('.VideoSummary-published-at').length).toBe(0)
   })
 })
