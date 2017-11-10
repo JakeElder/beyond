@@ -37,10 +37,6 @@ class VideoListPageContainer extends Component {
     // ancestor
     do {
       if (matches(node, 'a[data-push]')) {
-        // Dispatch an action that will update the state so the following
-        // pushState navigation will know which page to display
-        const action = videoDetailLinkClicked(node.getAttribute('data-id'))
-        this.props.dispatch(action)
         // Prevent browser navigation and push the new url
         e.preventDefault()
         this.props.history.push(node.getAttribute('href'))

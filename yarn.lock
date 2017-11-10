@@ -827,6 +827,14 @@ babel-plugin-transform-object-rest-spread@^6.23.0:
     babel-plugin-syntax-object-rest-spread "^6.8.0"
     babel-runtime "^6.26.0"
 
+babel-plugin-transform-postcss-camelized@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-postcss-camelized/-/babel-plugin-transform-postcss-camelized-0.2.2.tgz#0a0f0d0ca48e9bec65c3d8fc9cf93d97bcb1fac5"
+  dependencies:
+    camelcase "^4.1.0"
+    debug "^3.0.0"
+    postcss-load-config "^1.1.0"
+
 babel-plugin-transform-postcss@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-postcss/-/babel-plugin-transform-postcss-0.3.0.tgz#1f2e5d047bbd0ce84ac443c4715003d3796ee237"
@@ -1745,7 +1753,7 @@ dateformat@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.2.tgz#9a4df4bff158ac2f34bc637abdb15471607e1659"
 
-debug@*, debug@^3.0.1, debug@^3.1.0:
+debug@*, debug@^3.0.0, debug@^3.0.1, debug@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:

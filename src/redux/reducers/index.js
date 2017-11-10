@@ -4,15 +4,6 @@ import {
   VIDEO_LIST_DATA_FETCHED
 } from '../constants'
 
-function activeVideoId(state = null, action) {
-  switch (action.type) {
-    case VIDEO_DETAIL_LINK_CLICKED:
-      return action.id
-    default:
-      return state
-  }
-}
-
 function videos(state = [], action) {
   switch (action.type) {
     case VIDEO_LIST_DATA_FETCHED:
@@ -32,7 +23,6 @@ function listLoadPerformed(state = false, action) {
 }
 
 export default combineReducers({
-  activeVideoId,
   videos,
   listLoadPerformed
 })

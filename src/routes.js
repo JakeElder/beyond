@@ -19,10 +19,7 @@ const routes = [{
   component: VideoDetailPage,
   getData: async ({ id }) => {
     const video = await Video.find(id)
-    return {
-      videos: [video],
-      activeVideoId: video.id
-    }
+    return { videos: [video] }
   }
 }, {
   component: NotFoundPage
