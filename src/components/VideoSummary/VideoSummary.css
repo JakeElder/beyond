@@ -1,11 +1,13 @@
+@import '../../abstract-styles/variables.css';
+
 .root {
 }
 
-.meta {
-  composes: margin-bottom-small from '../../abstract-styles/layout.css';
+.content {
 }
 
-.link {
+.heading-link,
+.thumbnail-link {
   composes: link from '../../abstract-styles/typography.css';
   display: block;
 }
@@ -17,6 +19,7 @@
 
 .published-at {
   composes: small unobtrusive body from '../../abstract-styles/typography.css';
+  composes: margin-bottom-medium from '../../abstract-styles/layout.css';
 }
 
 .published-at-label {
@@ -32,4 +35,29 @@
 
 .description {
   display: none;
+}
+
+@media (--tablet-and-above) {
+  .root {
+    display: flex;
+    height: 225px;
+  }
+
+  .thumbnail-link {
+    order: -1;
+    flex: 0 0 400px;
+    height: 225px;
+    overflow: hidden;
+    margin-right: 20px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .description {
+    display: block;
+    composes: small long body from '../../abstract-styles/typography.css';
+  }
 }

@@ -1,3 +1,5 @@
+@custom-media --tablet-and-above (min-width: 768px);
+
 :root {
   /* layout */
   --vertical-spacing-x-large: 26px;

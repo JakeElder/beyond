@@ -75,7 +75,8 @@ module.exports = ({ DEV = false }) => {
         plugins: (loader) => [
           require('postcss-import')({ root: loader.resourcePath }),
           require('postcss-custom-properties'),
-          require('autoprefixer')({ browsers: package.browserslist })
+          require('autoprefixer')({ browsers: package.browserslist }),
+          require('postcss-custom-media')
         ]
       }
     }]
@@ -93,7 +94,7 @@ module.exports = ({ DEV = false }) => {
   serverConfig.target = 'node'
 
   serverConfig.externals = require('webpack-node-externals')({
-    whitelist: ['reset-css']
+    whitelist: ['reset-css', 'ftellipsis']
   })
 
   serverConfig.output = {
@@ -130,6 +131,12 @@ module.exports = ({ DEV = false }) => {
     serverConfig,
     '$..[?(@.loader===\'css-loader\')]'
   ).unshift({ loader: 'css-modules-locals-loader' })
+
+  // Only need this on client
+  serverConfig.module.rules.unshift({
+    test: /ftellipsis/,
+    use: 'null-loader'
+  })
 
   if (DEV) {
     serverConfig.plugins.push(

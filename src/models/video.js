@@ -32,7 +32,7 @@ export function googlePlaylistItemsItemToVideo(item) {
     publishedAt: item.contentDetails.videoPublishedAt,
     title: item.snippet.title,
     thumbnail: item.snippet.thumbnails.high.url,
-    description: linesToParagraphs(item.snippet.description.replace(/\r\n/g, ''))
+    description: linesToParagraphs(item.snippet.description)
   }
 }
 
