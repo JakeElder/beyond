@@ -41,6 +41,7 @@
   .root {
     display: flex;
     height: 225px;
+    overflow: hidden;
   }
 
   .thumbnail-link {

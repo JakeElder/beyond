@@ -23,4 +23,6 @@
 .page {
   padding: 20px;
   overflow: hidden;
+  max-width: 1000px;
+  margin: auto;
 }
