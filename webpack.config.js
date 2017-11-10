@@ -6,6 +6,7 @@ const package = require('./package.json')
 const boolean = require('boolean')
 const clone = require('clone')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const OptimizeJsPlugin = require('optimize-js-plugin')
 
 module.exports = ({ DEV = false }) => {
 
@@ -19,7 +20,7 @@ module.exports = ({ DEV = false }) => {
 
   const baseConfig = {
     module: { rules: [] },
-    devtool: DEV ? 'cheap-module-inline-source-map' : 'source-map'
+    devtool: DEV ? 'cheap-module-inline-source-map' : false
   }
 
   // Loaders
@@ -63,10 +64,11 @@ module.exports = ({ DEV = false }) => {
       loader: 'css-loader',
       options: {
         importLoaders: 1,
-        localIdentName: '[name]-[local]',
+        localIdentName: DEV ? '[name]-[local]' : '[hash:5]',
         modules: true,
-        sourceMap: true,
-        camelCase: true
+        sourceMap: DEV,
+        camelCase: true,
+        minimize: !DEV
       }
     }, {
       loader: 'postcss-loader',
@@ -181,13 +183,14 @@ module.exports = ({ DEV = false }) => {
   ]
 
 
-  // Add style-loader to css rules
-  clientConfig.module.rules[2].rules.unshift({
-    loader: 'style-loader',
-    options: { sourceMap: true }
-  })
 
   if (DEV) {
+    // Add style-loader to css rules
+    clientConfig.module.rules[2].rules.unshift({
+      loader: 'style-loader',
+      options: { sourceMap: true }
+    })
+
     clientConfig.entry.splice(1, 0, 'webpack-hot-middleware/client')
 
     clientConfig.plugins.push(
@@ -200,14 +203,22 @@ module.exports = ({ DEV = false }) => {
       'react': 'React',
       'react-dom': 'ReactDOM',
       'react-router': 'ReactRouter',
-      'react-router-dom': 'ReactRouterDOM'
+      'react-router-dom': 'ReactRouterDOM',
+      'redux': 'Redux',
+      'redux-saga': 'ReduxSaga',
+      'react-redux': 'ReactRedux'
     }
     clientConfig.module.rules[2].use = ExtractTextPlugin.extract({
-      fallback: "style-loader",
+      fallback: 'style-loader',
       use: clientConfig.module.rules[2].rules
     })
     delete clientConfig.module.rules[2].rules
-    clientConfig.plugins.push(new ExtractTextPlugin('styles.css'))
+    clientConfig.plugins.push(
+      new ExtractTextPlugin({
+        filename: 'styles.css',
+        ignoreOrder: true
+      }),
+    )
   }
 
   return [serverConfig, clientConfig]

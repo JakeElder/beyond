@@ -61,7 +61,10 @@ app.use((ctx) => {
       `https://unpkg.com/react@${dependencies.react}/umd/react.production.min.js`,
       `https://unpkg.com/react-dom@${dependencies['react-dom']}/umd/react-dom.production.min.js`,
       `https://unpkg.com/react-router@${dependencies['react-router']}/umd/react-router.min.js`,
-      `https://unpkg.com/react-router-dom@${dependencies['react-router']}/umd/react-router-dom.min.js`
+      `https://unpkg.com/react-router-dom@${dependencies['react-router']}/umd/react-router-dom.min.js`,
+      `https://unpkg.com/redux@${dependencies.redux}/dist/redux.min.js`,
+      `https://unpkg.com/redux-saga@${dependencies['redux-saga']}`,
+      `https://unpkg.com/react-redux@${dependencies['react-redux']}/dist/react-redux.min.js`
     )
     styles.push('/assets/styles.css')
   }

@@ -78,6 +78,7 @@
     "jsonpath": "^1.0.0",
     "koa-webpack": "^1.0.0",
     "null-loader": "^0.1.1",
+    "optimize-js-plugin": "^0.0.4",
     "postcss": "^6.0.14",
     "postcss-custom-properties": "^6.2.0",
     "postcss-import": "^11.0.0",
