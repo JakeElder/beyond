@@ -49,4 +49,5 @@
 .page-heading {
   composes: large underlined heading;
   margin-bottom: var(--vertical-spacing-x-large);
+  height: 32px;
 }

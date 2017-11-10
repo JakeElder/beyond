@@ -9,7 +9,7 @@ import { Provider as StoreProvider } from 'react-redux'
 import { StaticRouter, matchPath } from 'react-router'
 import 'isomorphic-fetch'
 
-import App from './components/App'
+import App from './containers/App'
 import reducer from './redux/reducers'
 import pkg from '../package.json'
 import routes from './routes'

@@ -5,7 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import { videoListPageNavigatedToWithoutDataSaga } from './redux/sagas/video-list-page-navigated-to-without-data'
-import App from './components/App'
+import App from './containers/App'
 import reducer from './redux/reducers'
 
 let initialRender = true
@@ -37,5 +37,5 @@ function render() {
 render()
 
 if (module.hot) {
-  module.hot.accept('./components/App', render)
+  module.hot.accept('./containers/App', render)
 }

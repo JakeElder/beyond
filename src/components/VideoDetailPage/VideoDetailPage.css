@@ -7,6 +7,13 @@
 .heading {
   composes: page-heading from '../../abstract-styles/typography.css';
   margin-bottom: var(--vertical-spacing-small);
+  display: flex;
+  align-items: center;
+}
+
+.back-arrow {
+  color: inherit;
+  margin-right: 6px;
 }
 
 .published-at {
