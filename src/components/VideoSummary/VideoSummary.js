@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import dateFormat from 'dateformat'
+import { formatDate } from '../../utils'
 import s from './VideoSummary.css'
-
-// TODO: Factor out in to constants/config
-const DATE_FORMAT = 'mmm d, yyyy'
 
 const VideoSummary = ({
   id,
@@ -16,14 +13,14 @@ const VideoSummary = ({
 }) => (
   <div className={s.root}>
     <div className={s.meta}>
-      <a className={s.link} data-push data-id={id} href={link} title={title}>
+      <a className={s.link} data-push href={link} title={title}>
         <h2 className={s.heading}>{title}</h2>
       </a>
       {publishedAt &&
         <div className={s.publishedAt}>
           <span className={s.publishedAtLabel}>Published: </span>
           <time className={s.publishedAtDate} dateTime={publishedAt}>
-            {dateFormat(new Date(publishedAt), DATE_FORMAT)}
+            {formatDate(publishedAt)}
           </time>
         </div>
       }

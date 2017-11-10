@@ -1,3 +1,5 @@
+@import './variables.css';
+
 .heading {
   font-family: 'Cabin', sans-serif;
 }
@@ -13,6 +15,14 @@
 
 .body {
   font-family: 'Open Sans', sans-serif;
+}
+
+.long {
+  line-height: 1.4;
+}
+
+.body > p {
+  margin-bottom: 14px;
 }
 
 .large {
@@ -34,4 +44,9 @@
 
 .unobtrusive {
   color: #555;
+}
+
+.page-heading {
+  composes: large underlined heading;
+  margin-bottom: var(--vertical-spacing-x-large);
 }

@@ -5,10 +5,7 @@ import matches from 'dom-matches'
 import PropTypes from 'prop-types'
 import VideoListPage from '../components/VideoListPage'
 import LoadingPage from '../components/LoadingPage'
-import {
-  videoDetailLinkClicked,
-  videoListPageNavigatedToWithoutData
-} from '../redux/actions'
+import { videoListPageNavigatedToWithoutData } from '../redux/actions'
 
 class VideoListPageContainer extends Component {
   static propTypes = {

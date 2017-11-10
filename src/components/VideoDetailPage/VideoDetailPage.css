@@ -1,5 +1,23 @@
+@import '../../abstract-styles/variables.css';
+
 .root {
+  composes: page from '../../abstract-styles/layout.css';
 }
 
 .heading {
+  composes: page-heading from '../../abstract-styles/typography.css';
+  margin-bottom: var(--vertical-spacing-small);
+}
+
+.published-at {
+  composes: small unobtrusive body from '../../abstract-styles/typography.css';
+  composes: margin-bottom-large from '../../abstract-styles/layout.css';
+}
+
+.video {
+  composes: margin-bottom-large from '../../abstract-styles/layout.css';
+}
+
+.description {
+  composes: long body from '../../abstract-styles/typography.css';
 }

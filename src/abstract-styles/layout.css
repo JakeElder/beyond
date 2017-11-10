@@ -1,10 +1,4 @@
-:root {
-  --vertical-spacing-x-large: 26px;
-  --vertical-spacing-large: 20px;
-  --vertical-spacing-medium: 16px;
-  --vertical-spacing-small: 10px;
-  --vertical-spacing-x-small: 3px;
-}
+@import './variables.css';
 
 .margin-bottom-x-large {
   margin-bottom: var(--vertical-spacing-x-large);
@@ -26,6 +20,7 @@
   margin-bottom: var(--vertical-spacing-x-small);
 }
 
-.page-padding {
+.page {
   padding: 20px;
+  overflow: hidden;
 }

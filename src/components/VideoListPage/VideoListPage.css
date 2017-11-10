@@ -1,9 +1,7 @@
 .root {
-  composes: page-padding from '../../abstract-styles/layout.css';
-  overflow: hidden;
+  composes: page from '../../abstract-styles/layout.css';
 }
 
 .heading {
-  composes: large underlined heading from '../../abstract-styles/typography.css';
-  composes: margin-bottom-x-large from '../../abstract-styles/layout.css';
+  composes: page-heading from '../../abstract-styles/typography.css';
 }

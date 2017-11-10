@@ -1,6 +1,7 @@
 // TODO: Rather than be used on the front and back end, front end requests
 // should be proxied via the backend so the api key isn't exposed
 import qs from 'qs'
+import linesToParagraphs from 'lines-to-paragraphs'
 
 
 // TODO: Factor out in to config/params
@@ -14,7 +15,7 @@ export function getDeletedVideo(id) {
   return {
     id,
     publishedAt: null,
-    title: 'Video unavailable',
+    title: 'Video Unavailable',
     thumbnail: '',
     description: 'This video is currently unavailable'
   }
@@ -31,7 +32,7 @@ export function googlePlaylistItemsItemToVideo(item) {
     publishedAt: item.contentDetails.videoPublishedAt,
     title: item.snippet.title,
     thumbnail: item.snippet.thumbnails.high.url,
-    description: item.snippet.description.replace(/\r\n/g, '')
+    description: linesToParagraphs(item.snippet.description.replace(/\r\n/g, ''))
   }
 }
 
@@ -44,7 +45,7 @@ export function googleVideosResponseToVideo({ items }) {
     publishedAt: items[0].snippet.publishedAt,
     title: items[0].snippet.title,
     thumbnail: items[0].snippet.thumbnails.high.url,
-    description: items[0].snippet.description.replace(/\r\n/g, '')
+    description: linesToParagraphs(items[0].snippet.description)
   }
 }
 

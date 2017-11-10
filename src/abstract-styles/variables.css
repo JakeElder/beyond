@@ -1,0 +1,9 @@
+:root {
+  /* layout */
+  --vertical-spacing-x-large: 26px;
+  --vertical-spacing-large: 20px;
+  --vertical-spacing-medium: 16px;
+  --vertical-spacing-small: 10px;
+  --vertical-spacing-x-small: 3px;
+}
+

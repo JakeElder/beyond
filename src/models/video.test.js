@@ -7,7 +7,7 @@ const expectedVideo = {
   publishedAt: '2009-09-07T15:09:56.000Z',
   title: 'Lamb Angelica',
   thumbnail: 'https://i.ytimg.com/vi/X0qwQqwKLlM/hqdefault.jpg',
-  description: 'From Lamb\'s 2003 album Between Darkness and Wonder'
+  description: '<p>From Lamb\'s 2003 album Between Darkness and Wonder</p>'
 }
 
 describe('all', () => {

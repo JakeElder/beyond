@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux'
-import {
-  VIDEO_DETAIL_LINK_CLICKED,
-  VIDEO_LIST_DATA_FETCHED
-} from '../constants'
+import { VIDEO_LIST_DATA_FETCHED } from '../constants'
 
 function videos(state = [], action) {
   switch (action.type) {
