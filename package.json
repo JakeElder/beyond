@@ -5,8 +5,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "./node_modules/.bin/webpack --env.DEV=false",
     "lint": "./node_modules/.bin/eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" ./src",
-    "test": "./node_modules/.bin/jest --watchAll"
+    "test": "./node_modules/.bin/jest --watchAll",
+    "start": "node ./scripts/develop.js"
   },
   "engines": {
     "node": "8.9.0"
