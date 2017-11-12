@@ -1,3 +1,5 @@
+import 'isomorphic-fetch'
+
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import Koa from 'koa'
@@ -7,7 +9,6 @@ import mount from 'koa-mount'
 import { createStore } from 'redux'
 import { Provider as StoreProvider } from 'react-redux'
 import { StaticRouter, matchPath } from 'react-router'
-import 'isomorphic-fetch'
 
 import App from './containers/App'
 import reducer from './redux/reducers'

@@ -1,6 +1,6 @@
 # Beyond Tube
 
-TL;DR: [App deployed here](https://repo-lbrspevozl.now.sh/), code up there ^^
+TL;DR: [App deployed here](https://jakes.work/), code up there ^^
 
 **Wadup Beyond chaps**
 
@@ -43,9 +43,9 @@ code. The entire app, framework included weighs in at 924 lines of code.
 
 ### TODO
 
-In real life, I would have cross browser tested more thoroughly. I
+In real life, I would have cross browser tested more thoroughly. ~~I
 know there's one nasty bug in IE11 that's a show stopper, I'll probably try
-and patch it up over the weekend before I get found out. See if you can spot it 🤗
+and patch it up over the weekend before I get found out. See if you can spot it 🤗~~. Fixed.
 
 The truncation of the video details on the list page is a pain as you all well
 know. I'd put some more time in to that.

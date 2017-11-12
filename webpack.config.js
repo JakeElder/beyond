@@ -156,7 +156,7 @@ module.exports = ({ DEV = false }) => {
   const clientConfig = clone(baseConfig)
 
   clientConfig.name = 'client'
-  clientConfig.entry = ['babel-polyfill', './src/client.js']
+  clientConfig.entry = ['whatwg-fetch', 'babel-polyfill', './src/client.js']
 
   clientConfig.output = {
     path: path.resolve(__dirname, 'build'),
